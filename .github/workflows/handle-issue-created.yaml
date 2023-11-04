@@ -20,6 +20,7 @@ jobs:
               repo: context.repo.repo,
             });
             console.log(_issue);
+            console.log(_issue.data.body);
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
