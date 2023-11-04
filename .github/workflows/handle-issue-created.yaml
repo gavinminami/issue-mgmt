@@ -27,6 +27,6 @@ jobs:
             });
             console.log(_issue);
             console.log(_issue.data.body);
-            const script = require(`./dist/index.js`);
+            const script = require(`./dist/index.js`).default;
             console.log(script);
             script();
