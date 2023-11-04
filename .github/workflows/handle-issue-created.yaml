@@ -10,6 +10,7 @@ jobs:
     permissions:
       issues: write
     steps:
+      - uses: actions/checkout@v4
       - run: |
           pwd
           ls -al
