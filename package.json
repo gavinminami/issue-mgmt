@@ -1,0 +1,25 @@
+{
+  "name": "issue-mgmt",
+  "version": "1.0.0",
+  "description": "Testing automated Github actions with Github issues",
+  "main": "dist/index.js",
+  "scripts": {
+    "package": "ncc build src/index.ts --license licenses.txt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavinminami/issue-mgmt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavinminami/issue-mgmt/issues"
+  },
+  "homepage": "https://github.com/gavinminami/issue-mgmt#readme",
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "@vercel/ncc": "^0.38.1",
+    "typescript": "^5.2.2"
+  }
+}

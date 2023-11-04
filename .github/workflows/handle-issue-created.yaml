@@ -21,9 +21,6 @@ jobs:
             });
             console.log(_issue);
             console.log(_issue.data.body);
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ["triage"]
-            })
+            const script = require(`${process.env.GITHUB_WORKSPACE}/dist/index.js`);
+            console.log(script);
+            script();
