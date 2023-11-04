@@ -29,4 +29,4 @@ jobs:
             console.log(_issue.data.body);
             const script = require(`./dist/index.js`).default;
             console.log(script);
-            script();
+            console.log(script());

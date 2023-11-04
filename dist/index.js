@@ -11,7 +11,6 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-console.log("hello world");
 function default_1() {
     return "test";
 }
