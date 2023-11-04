@@ -10,6 +10,9 @@ jobs:
     permissions:
       issues: write
     steps:
+      - run: |
+          pwd
+          ls -al
       - uses: actions/github-script@v6
         with:
           script: |
@@ -21,6 +24,6 @@ jobs:
             });
             console.log(_issue);
             console.log(_issue.data.body);
-            const script = require(`${process.env.GITHUB_WORKSPACE}/dist/index.js`);
+            const script = require(`./dist/index.js`);
             console.log(script);
             script();
