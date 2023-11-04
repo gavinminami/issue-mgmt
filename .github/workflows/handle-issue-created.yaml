@@ -14,6 +14,12 @@ jobs:
         with:
           script: |
             console.log(context.issue);
+            const _issue = github.rest.issues.get({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            console.log(_issue);
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
