@@ -16,6 +16,7 @@ export function parseData(formData: string): MyMapType {
         Object.assign(jsondata, {
           [`${key}`]: val,
         });
+        key = undefined;
       }
       key = line.split("### ")[1];
       console.log({ key });
@@ -23,6 +24,12 @@ export function parseData(formData: string): MyMapType {
     } else {
       val.push(line);
     }
+  }
+
+  if (key !== undefined) {
+    Object.assign(jsondata, {
+      [`${key}`]: val,
+    });
   }
 
   return jsondata;
