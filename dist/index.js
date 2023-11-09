@@ -11,10 +11,32 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-function default_1() {
-    return "test";
+exports.parseData = void 0;
+function parseData(formData) {
+    const lines = formData.split("\n");
+    const jsondata = {};
+    let key;
+    let val = [];
+    for (var i = 0; i < lines.length; i++) {
+        console.log(lines[i]);
+        const line = lines[i];
+        if (line.startsWith("###")) {
+            if (key !== undefined) {
+                Object.assign(jsondata, {
+                    [`${key}`]: val,
+                });
+            }
+            key = line.split("### ")[1];
+            console.log({ key });
+            val = [];
+        }
+        else {
+            val.push(line);
+        }
+    }
+    return jsondata;
 }
-exports["default"] = default_1;
+exports.parseData = parseData;
 
 })();
 
