@@ -25,6 +25,7 @@ function parseData(formData) {
                 Object.assign(jsondata, {
                     [`${key}`]: val,
                 });
+                key = undefined;
             }
             key = line.split("### ")[1];
             console.log({ key });
@@ -33,6 +34,11 @@ function parseData(formData) {
         else {
             val.push(line);
         }
+    }
+    if (key !== undefined) {
+        Object.assign(jsondata, {
+            [`${key}`]: val,
+        });
     }
     return jsondata;
 }

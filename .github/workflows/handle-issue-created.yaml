@@ -30,3 +30,10 @@ jobs:
             const { parseData } = require(`./dist/index.js`);
             console.log(parseData);
             console.log(parseData(_issue.data.body));
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `👋 Thanks for reporting! ${_issue.data.title}`
+            });
