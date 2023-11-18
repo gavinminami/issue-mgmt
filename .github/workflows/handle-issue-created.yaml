@@ -2,10 +2,10 @@ name: Add runbook in comment
 on:
   issues:
     types:
-      - reopened
-      - opened
+      - labeled
 jobs:
   add_runbook:
+    if: github.event.label.name == 'bug'
     runs-on: ubuntu-latest
     permissions:
       issues: write
