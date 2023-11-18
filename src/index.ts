@@ -34,3 +34,8 @@ export function parseData(formData: string): MyMapType {
 
   return jsondata;
 }
+
+export function hasLabel(issue: any, labelName: string): boolean {
+  const labels = issue?.data?.labels;
+  return !!labels?.find(({ name }: { name: string }) => labelName === name);
+}

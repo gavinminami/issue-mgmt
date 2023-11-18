@@ -29,7 +29,12 @@ jobs:
             console.log(JSON.stringify({labels:_issue.data.labels}));
             console.log(_issue.data.body);
 
-            const { parseData } = require(`./dist/index.js`);
+            const { parseData, hasLabel } = require(`./dist/index.js`);
+
+            if (!hasLabel(_issue, 'bug')) {
+              console.log('Issue is not of type bug');
+              return;
+            }
             console.log(parseData);
             console.log(parseData(_issue.data.body));
 

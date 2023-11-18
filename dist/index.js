@@ -11,7 +11,7 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parseData = void 0;
+exports.hasLabel = exports.parseData = void 0;
 function parseData(formData) {
     const lines = formData.split("\n");
     const jsondata = {};
@@ -43,6 +43,11 @@ function parseData(formData) {
     return jsondata;
 }
 exports.parseData = parseData;
+function hasLabel(issue, labelName) {
+    const labels = issue?.data?.labels;
+    return !!labels?.find(({ name }) => labelName === name);
+}
+exports.hasLabel = hasLabel;
 
 })();
 
