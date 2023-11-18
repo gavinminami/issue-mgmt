@@ -19,6 +19,7 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
+            console.log(JSON.stringify(context));
             console.log(context.issue);
             const _issue = await github.rest.issues.get({
               issue_number: context.issue.number,
