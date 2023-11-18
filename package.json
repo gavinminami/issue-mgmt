@@ -53,5 +53,8 @@
     "collectCoverageFrom": [
       "./src/**"
     ]
+  },
+  "dependencies": {
+    "yaml": "^2.3.4"
   }
 }

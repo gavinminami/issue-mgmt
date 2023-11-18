@@ -1,15 +1,21 @@
-import { parseData, hasLabel } from "../src/index";
+import { parseData, hasLabel, parseIssueTemplate } from "../src/index";
 import * as fs from "fs";
 import * as path from "path";
 
 describe("index", () => {
   it("calls run when imported", async () => {
-    console.log(__dirname);
     const data = fs.readFileSync(path.join(__dirname, "./testdata.txt"));
 
     const m = parseData(data.toString());
     console.log(m);
     expect(m["Contact Details"]).not.toBe(undefined);
+  });
+});
+
+describe("parseIssueTemplate", () => {
+  it("should parse issue template", async () => {
+    const parsed = parseIssueTemplate("bug-report.yaml");
+    console.log(JSON.stringify(parsed));
   });
 });
 

@@ -28,14 +28,14 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: version
+    id: color
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: Color
+      description: What is your favorite color
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-      default: 0
+        - Orange
+        - Blue
+        - Green
     validations:
       required: true
   - type: dropdown

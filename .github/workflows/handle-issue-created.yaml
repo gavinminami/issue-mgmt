@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
+          npm install
+      - run: |
           pwd
           ls -al
       - uses: actions/github-script@v6
@@ -30,7 +32,9 @@ jobs:
             console.log(JSON.stringify({labels:_issue.data.labels}));
             console.log(_issue.data.body);
 
-            const { parseData, hasLabel } = require(`./dist/index.js`);
+            const { parseData, hasLabel, parseIssueTemplate } = require(`./dist/index.js`);
+            const issueTemplate = parseIssueTemplate("bug-report.yaml");
+            console.log(JSON.stringify(issueTemplate));
 
             if (!hasLabel(_issue, 'bug')) {
               console.log('Issue is not of type bug');
