@@ -32,7 +32,7 @@ jobs:
             // console.log(JSON.stringify({labels:_issue.data.labels}));
             // console.log(_issue.data.body);
 
-            const { parseData, parseIssueTemplate, buildFieldLabelToIdMap } = require(`./dist/index.js`);
+            const { parseData, parseIssueTemplate, buildFieldLabelToIdMap, readFileAsString } = require(`./dist/index.js`);
 
             const _issue = context.payload.issue;
 
