@@ -35,7 +35,8 @@ jobs:
             const { parseData, parseIssueTemplate, buildFieldLabelToIdMap } = require(`./dist/index.js`);
 
             // parse the issue data
-            const parsedData = parseData(context.payload.issue);
+            console.log({body: context.payload.issue.body});
+            const parsedData = parseData(context.payload.issue.body);
             console.log(JSON.stringify({"parsedData": parsedData}, null, 2));
 
             // parse the issue template
