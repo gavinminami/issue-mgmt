@@ -55,21 +55,33 @@ export function parseIssueTemplate(templateFile: string): any {
   return parse(issueTemplateYaml.toString());
 }
 
-export function buildFieldLabelToIdMap(issueTemplate: any): any {
+export function buildFieldLabelToIdMap(issueTemplate: any, formData: any): any {
   let m = {};
   let field: Field;
   for (field of issueTemplate?.body) {
     const { id, type } = field;
-    const { label } = field?.attributes;
+    const { label, multiple } = field?.attributes;
     if (id === undefined || label === undefined) {
       continue;
     }
 
+    let value = undefined;
+    let formLines = formData[label] as [string];
+    if (type === "dropdown" && multiple) {
+      value = formLines.filter(function (element) {
+        return element.length > 0;
+      });
+    } else {
+      value = formLines.join("");
+    }
+
     m = {
       ...m,
-      [label]: {
-        id,
+      [id]: {
+        label,
         type,
+        multiple,
+        value,
       },
     };
   }
@@ -80,4 +92,11 @@ export function buildFieldLabelToIdMap(issueTemplate: any): any {
 export function hasLabel(issue: any, labelName: string): boolean {
   const labels = issue?.data?.labels;
   return !!labels?.find(({ name }: { name: string }) => labelName === name);
+}
+
+export function readFileAsString(relPath: string) {
+  console.log(process.cwd(), `reading contents of ${relPath}`);
+  const issueTemplateYaml = fs.readFileSync(path.join(process.cwd(), relPath));
+
+  return issueTemplateYaml.toString();
 }

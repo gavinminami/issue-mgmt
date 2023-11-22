@@ -27,10 +27,14 @@ describe("parseIssueTemplate", () => {
 describe("buildFieldLabelToIdMap", () => {
   it("should parse issue template", async () => {
     const parsed = parseIssueTemplate("bug-report.yaml");
-    console.log(JSON.stringify(parsed));
-    const m = buildFieldLabelToIdMap(parsed);
-    console.log(m);
-    expect(m["Color"].id).toBe("color");
+
+    const data = fs.readFileSync(path.join(__dirname, "./testdata.txt"));
+    const dataLines = parseData(data.toString());
+
+    const m = buildFieldLabelToIdMap(parsed, dataLines);
+    console.log(JSON.stringify(m, null, 2));
+    expect(m["color"].label).toBe("Color");
+    expect(m["color"].value).toBe("Orange");
   });
 });
 
