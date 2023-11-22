@@ -1,4 +1,9 @@
-import { parseData, hasLabel, parseIssueTemplate } from "../src/index";
+import {
+  parseData,
+  hasLabel,
+  parseIssueTemplate,
+  buildFieldLabelToIdMap,
+} from "../src/index";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -16,6 +21,16 @@ describe("parseIssueTemplate", () => {
   it("should parse issue template", async () => {
     const parsed = parseIssueTemplate("bug-report.yaml");
     console.log(JSON.stringify(parsed));
+  });
+});
+
+describe("buildFieldLabelToIdMap", () => {
+  it("should parse issue template", async () => {
+    const parsed = parseIssueTemplate("bug-report.yaml");
+    console.log(JSON.stringify(parsed));
+    const m = buildFieldLabelToIdMap(parsed);
+    console.log(m);
+    expect(m["Color"].id).toBe("color");
   });
 });
 

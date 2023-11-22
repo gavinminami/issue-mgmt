@@ -6,6 +6,15 @@ type MyMapType = {
   [key: string]: string[];
 };
 
+type StringMapType = {
+  [key: string]: string;
+};
+type Field = {
+  id: string;
+  type: string;
+  attributes: StringMapType;
+};
+
 export function parseData(formData: string): MyMapType {
   const lines = formData.split("\n");
   const jsondata = {};
@@ -44,6 +53,28 @@ export function parseIssueTemplate(templateFile: string): any {
   );
 
   return parse(issueTemplateYaml.toString());
+}
+
+export function buildFieldLabelToIdMap(issueTemplate: any): any {
+  let m = {};
+  let field: Field;
+  for (field of issueTemplate?.body) {
+    const { id, type } = field;
+    const { label } = field?.attributes;
+    if (id === undefined || label === undefined) {
+      continue;
+    }
+
+    m = {
+      ...m,
+      [label]: {
+        id,
+        type,
+      },
+    };
+  }
+
+  return m;
 }
 
 export function hasLabel(issue: any, labelName: string): boolean {

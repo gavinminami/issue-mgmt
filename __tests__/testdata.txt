@@ -10,6 +10,10 @@ A bug happened!
 
 1.0.2 (Default)
 
+### Color
+
+Orange
+
 ### What browsers are you seeing the problem on?
 
 Chrome
