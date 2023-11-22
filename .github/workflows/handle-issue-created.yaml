@@ -34,9 +34,11 @@ jobs:
 
             const { parseData, parseIssueTemplate, buildFieldLabelToIdMap } = require(`./dist/index.js`);
 
+            const _issue = context.payload.issue;
+
             // parse the issue data
-            console.log({body: context.payload.issue.body});
-            const parsedData = parseData(context.payload.issue.body);
+            console.log({body: _issue.body});
+            const parsedData = parseData(_issue.body);
             console.log(JSON.stringify({"parsedData": parsedData}, null, 2));
 
             // parse the issue template
@@ -49,5 +51,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `👋 Thanks for reporting! ${_issue.data.title}`
+              body: `👋 Thanks for reporting! ${_issue.title}`
             });
