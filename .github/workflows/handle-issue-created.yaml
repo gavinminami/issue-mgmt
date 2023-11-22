@@ -49,7 +49,7 @@ jobs:
 
             // based on data for color field get content for comment
             const colorValue = issueFields["color"].value;
-            const commentValue = readFileAsString(`runbooks/${colorValue}.yaml`);
+            const commentValue = readFileAsString(`runbooks/${colorValue.toLowerCase()}.yaml`);
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
