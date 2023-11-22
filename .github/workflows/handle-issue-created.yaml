@@ -44,11 +44,11 @@ jobs:
             // parse the issue template
             const issueTemplate = parseIssueTemplate("bug-report.yaml");
             console.log(JSON.stringify({"issueTemplate": issueTemplate}, null, 2));
-            const issueFields = buildFieldLabelToIdMap(issueTemplate);
+            const issueFields = buildFieldLabelToIdMap(issueTemplate, parsedData);
             console.log(JSON.stringify({"issueFields": issueFields}, null, 2));
 
             // based on data for color field get content for comment
-            const colorValue = m["color"].value;
+            const colorValue = issueFields["color"].value;
             const commentValue = readFileAsString(`runbooks/${colorValue}.yaml`);
 
             await github.rest.issues.createComment({
