@@ -32,11 +32,17 @@ jobs:
             // console.log(JSON.stringify({labels:_issue.data.labels}));
             // console.log(_issue.data.body);
 
-            const { parseData, hasLabel, parseIssueTemplate, buildFieldLabelToIdMap } = require(`./dist/index.js`);
+            const { parseData, parseIssueTemplate, buildFieldLabelToIdMap } = require(`./dist/index.js`);
+
+            // parse the issue data
+            const parsedData = parseData(context.payload.issue);
+            console.log(JSON.stringify({"parsedData": parsedData}, null, 2));
+
+            // parse the issue template
             const issueTemplate = parseIssueTemplate("bug-report.yaml");
-            console.log(JSON.stringify(issueTemplate, null, 2));
+            console.log(JSON.stringify({"issueTemplate": issueTemplate}, null, 2));
             const issueFields = buildFieldLabelToIdMap(issueTemplate);
-            console.log(JSON.stringify({issueFields}, null, 2));
+            console.log(JSON.stringify({"issueFields": issueFields}, null, 2));
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,

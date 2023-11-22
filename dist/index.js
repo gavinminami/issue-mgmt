@@ -30,7 +30,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.hasLabel = exports.parseIssueTemplate = exports.parseData = void 0;
+exports.hasLabel = exports.buildFieldLabelToIdMap = exports.parseIssueTemplate = exports.parseData = void 0;
 const yaml_1 = __nccwpck_require__(4083);
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
@@ -69,6 +69,26 @@ function parseIssueTemplate(templateFile) {
     return (0, yaml_1.parse)(issueTemplateYaml.toString());
 }
 exports.parseIssueTemplate = parseIssueTemplate;
+function buildFieldLabelToIdMap(issueTemplate) {
+    let m = {};
+    let field;
+    for (field of issueTemplate?.body) {
+        const { id, type } = field;
+        const { label } = field?.attributes;
+        if (id === undefined || label === undefined) {
+            continue;
+        }
+        m = {
+            ...m,
+            [label]: {
+                id,
+                type,
+            },
+        };
+    }
+    return m;
+}
+exports.buildFieldLabelToIdMap = buildFieldLabelToIdMap;
 function hasLabel(issue, labelName) {
     const labels = issue?.data?.labels;
     return !!labels?.find(({ name }) => labelName === name);
