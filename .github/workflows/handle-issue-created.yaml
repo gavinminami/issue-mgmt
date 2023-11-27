@@ -26,7 +26,7 @@ jobs:
             const _issue = context.payload.issue;
             console.log({_issue});
             const issueData = parseIssueData("bug-report.yaml", _issue.body);
-            console.log({_issueData});
+            console.log({issueData});
 
             // based on data for color field get content for comment
             const commentForIssue = (issueDataMap) => {
