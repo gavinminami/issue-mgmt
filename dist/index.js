@@ -30,10 +30,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.readFileAsString = exports.hasLabel = exports.buildFieldLabelToIdMap = exports.parseIssueTemplate = exports.parseData = void 0;
+exports.readFileAsString = exports.hasLabel = exports.parseIssueData = exports.buildFieldLabelToIdMap = exports.parseIssueTemplate = exports.parseData = void 0;
 const yaml_1 = __nccwpck_require__(4083);
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
+// parse form data into key-value pairs where the key
+// is the field label and the key is an array of lines
+// which follow the line: ### <field_label>
 function parseData(formData) {
     const lines = formData.split("\n");
     const jsondata = {};
@@ -43,11 +46,13 @@ function parseData(formData) {
         const line = lines[i];
         if (line.startsWith("###")) {
             if (key !== undefined) {
+                // add the key and value to the map
                 Object.assign(jsondata, {
                     [`${key}`]: val,
                 });
                 key = undefined;
             }
+            // parse the field label
             key = line.split("### ")[1];
             val = [];
         }
@@ -101,6 +106,16 @@ function buildFieldLabelToIdMap(issueTemplate, formData) {
     return m;
 }
 exports.buildFieldLabelToIdMap = buildFieldLabelToIdMap;
+function parseIssueData(issueTemplateFile, issueBody) {
+    console.log({ body: issueBody });
+    const parsedData = parseData(issueBody);
+    console.log(JSON.stringify({ parsedData: parsedData }, null, 2));
+    // parse the issue template
+    const issueTemplate = parseIssueTemplate(issueTemplateFile);
+    console.log(JSON.stringify({ issueTemplate: issueTemplate }, null, 2));
+    return buildFieldLabelToIdMap(issueTemplate, parsedData);
+}
+exports.parseIssueData = parseIssueData;
 function hasLabel(issue, labelName) {
     const labels = issue?.data?.labels;
     return !!labels?.find(({ name }) => labelName === name);

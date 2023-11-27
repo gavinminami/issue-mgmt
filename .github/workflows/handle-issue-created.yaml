@@ -21,39 +21,20 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            console.log(JSON.stringify(context, null, 2));
-            // console.log(context.issue);
-            // const _issue = await github.rest.issues.get({
-            //   issue_number: context.issue.number,
-            //   owner: context.repo.owner,
-            //   repo: context.repo.repo,
-            // });
-            // console.log(JSON.stringify({issue: _issue}, null, 2));
-            // console.log(JSON.stringify({labels:_issue.data.labels}));
-            // console.log(_issue.data.body);
-
-            const { parseData, parseIssueTemplate, buildFieldLabelToIdMap, readFileAsString } = require(`./dist/index.js`);
+            const { parseIssueData } = require(`./dist/index.js`);
 
             const _issue = context.payload.issue;
-
-            // parse the issue data
-            console.log({body: _issue.body});
-            const parsedData = parseData(_issue.body);
-            console.log(JSON.stringify({"parsedData": parsedData}, null, 2));
-
-            // parse the issue template
-            const issueTemplate = parseIssueTemplate("bug-report.yaml");
-            console.log(JSON.stringify({"issueTemplate": issueTemplate}, null, 2));
-            const issueFields = buildFieldLabelToIdMap(issueTemplate, parsedData);
-            console.log(JSON.stringify({"issueFields": issueFields}, null, 2));
+            const issueData = parseIssueData("bug-report.yaml", _issue.body);
 
             // based on data for color field get content for comment
-            const colorValue = issueFields["color"].value;
-            const commentValue = readFileAsString(`runbooks/${colorValue.toLowerCase()}.yaml`);
+            const commentForIssue = (issueDataMap): string => {
+              const colorValue = issueDataMap["color"].value;
+              return readFileAsString(`runbooks/${colorValue.toLowerCase()}.yaml`);
+            }
 
             await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: _issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: commentValue,
+              body: commentForIssue(issueData),
             });
