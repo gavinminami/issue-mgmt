@@ -24,9 +24,7 @@ jobs:
             const { parseIssueData, readFileAsString } = require(`./dist/index.js`);
 
             const _issue = context.payload.issue;
-            console.log({_issue});
             const issueData = parseIssueData("bug-report.yaml", _issue.body);
-            console.log({issueData});
 
             // based on data for color field get content for comment
             const commentForIssue = (issueDataMap) => {

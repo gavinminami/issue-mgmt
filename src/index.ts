@@ -97,13 +97,10 @@ export function buildFieldLabelToIdMap(issueTemplate: any, formData: any): any {
 }
 
 export function parseIssueData(issueTemplateFile: string, issueBody: any): any {
-  console.log({ body: issueBody });
   const parsedData = parseData(issueBody);
-  console.log(JSON.stringify({ parsedData: parsedData }, null, 2));
 
   // parse the issue template
   const issueTemplate = parseIssueTemplate(issueTemplateFile);
-  console.log(JSON.stringify({ issueTemplate: issueTemplate }, null, 2));
   return buildFieldLabelToIdMap(issueTemplate, parsedData);
 }
 
