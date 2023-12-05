@@ -2,7 +2,7 @@ import {
   parseData,
   hasLabel,
   parseIssueTemplate,
-  buildFieldLabelToIdMap,
+  buildFieldIdToValueMap,
 } from "../src/index";
 import * as fs from "fs";
 import * as path from "path";
@@ -24,14 +24,14 @@ describe("parseIssueTemplate", () => {
   });
 });
 
-describe("buildFieldLabelToIdMap", () => {
+describe("buildFieldIdToValueMap", () => {
   it("should parse issue template", async () => {
     const parsed = parseIssueTemplate("bug-report.yaml");
 
     const data = fs.readFileSync(path.join(__dirname, "./testdata.txt"));
     const dataLines = parseData(data.toString());
 
-    const m = buildFieldLabelToIdMap(parsed, dataLines);
+    const m = buildFieldIdToValueMap(parsed, dataLines);
     console.log(JSON.stringify(m, null, 2));
     expect(m["color"].label).toBe("Color");
     expect(m["color"].value).toBe("Orange");

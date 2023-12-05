@@ -30,10 +30,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.readFileAsString = exports.hasLabel = exports.parseIssueData = exports.buildFieldLabelToIdMap = exports.parseIssueTemplate = exports.parseData = void 0;
-const yaml_1 = __nccwpck_require__(4083);
+exports.readFileAsString = exports.hasLabel = exports.parseIssueData = exports.buildFieldIdToValueMap = exports.parseIssueTemplate = exports.parseData = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
+const yaml_1 = __nccwpck_require__(4083);
 // parse form data into key-value pairs where the key
 // is the field label and the key is an array of lines
 // which follow the line: ### <field_label>
@@ -68,13 +68,15 @@ function parseData(formData) {
     return jsondata;
 }
 exports.parseData = parseData;
+// parse the issue template
 function parseIssueTemplate(templateFile) {
     console.log(process.cwd(), ".github/ISSUE_TEMPLATE", templateFile);
     const issueTemplateYaml = fs.readFileSync(path.join(process.cwd(), ".github/ISSUE_TEMPLATE", templateFile));
     return (0, yaml_1.parse)(issueTemplateYaml.toString());
 }
 exports.parseIssueTemplate = parseIssueTemplate;
-function buildFieldLabelToIdMap(issueTemplate, formData) {
+// build a map of field id to value
+function buildFieldIdToValueMap(issueTemplate, formData) {
     let m = {};
     let field;
     for (field of issueTemplate?.body) {
@@ -86,11 +88,13 @@ function buildFieldLabelToIdMap(issueTemplate, formData) {
         let value = undefined;
         let formLines = formData[label];
         if (type === "dropdown" && multiple) {
+            // filter out empty lines
             value = formLines.filter(function (element) {
                 return element.length > 0;
             });
         }
         else {
+            // join the lines into a single string
             value = formLines.join("");
         }
         m = {
@@ -105,19 +109,22 @@ function buildFieldLabelToIdMap(issueTemplate, formData) {
     }
     return m;
 }
-exports.buildFieldLabelToIdMap = buildFieldLabelToIdMap;
+exports.buildFieldIdToValueMap = buildFieldIdToValueMap;
+// parse the issue template and form data into a map
 function parseIssueData(issueTemplateFile, issueBody) {
     const parsedData = parseData(issueBody);
     // parse the issue template
     const issueTemplate = parseIssueTemplate(issueTemplateFile);
-    return buildFieldLabelToIdMap(issueTemplate, parsedData);
+    return buildFieldIdToValueMap(issueTemplate, parsedData);
 }
 exports.parseIssueData = parseIssueData;
+// check if the issue has a label
 function hasLabel(issue, labelName) {
     const labels = issue?.data?.labels;
     return !!labels?.find(({ name }) => labelName === name);
 }
 exports.hasLabel = hasLabel;
+// check if the issue has a label
 function readFileAsString(relPath) {
     console.log(process.cwd(), `reading contents of ${relPath}`);
     const issueTemplateYaml = fs.readFileSync(path.join(process.cwd(), relPath));
