@@ -1,6 +1,6 @@
 # issue-mgmt
 
-Testing automated Github actions with Github issues
+Demonstrates adding content as a comment based on the value(s) of issue fields.
 
 ## Compiling
 

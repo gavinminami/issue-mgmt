@@ -1,10 +1,11 @@
-name: Add runbook in comment
+# This workflow will add a runbook as comment to the issue when it is labeled as bug
+name: Add runbook as comment
 on:
   issues:
     types:
       - labeled
 jobs:
-  add_runbook:
+  add_runbook_as_comment:
     if: github.event.label.name == 'bug'
     runs-on: ubuntu-latest
     permissions:
@@ -13,17 +14,15 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      # - run: |
-      #     npm install
-      - run: |
-          pwd
-          ls -al
       - uses: actions/github-script@v6
         with:
           script: |
             const { parseIssueData, readFileAsString } = require(`./dist/index.js`);
 
             const _issue = context.payload.issue;
+
+            // parse issue template and issue body to generate
+            // issue id to issue data map
             const issueData = parseIssueData("bug-report.yaml", _issue.body);
 
             // based on data for color field get content for comment
@@ -32,6 +31,7 @@ jobs:
               return readFileAsString(`runbooks/${colorValue.toLowerCase()}.yaml`);
             }
 
+            // add comment to issue
             await github.rest.issues.createComment({
               issue_number: _issue.number,
               owner: context.repo.owner,
